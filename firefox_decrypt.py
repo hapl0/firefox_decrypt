@@ -416,10 +416,10 @@ class NSSInteraction(object):
         stored passwords.
         """
         def output_line(line):
-            if PY3:
-                sys.stdout.write(line)
-            else:
-                sys.stdout.write(line.encode("utf8"))
+            sys.stdout.write(line.encode("utf8"))
+#            if PY3:
+#                sys.stdout.write(line)
+#            else:
 
         # Any password in this profile store at all?
         got_password = False
@@ -464,10 +464,10 @@ class NSSInteraction(object):
 
             if output_format == "csv":
                 output = {"url": url, "user": user, "password": passw}
-                if PY3:
-                    csv_writer.writerow(output)
-                else:
-                    csv_writer.writerow({k: v.encode("utf8") for k, v in output.items()})
+                csv_writer.writerow({k: v.encode("utf8") for k, v in output.items()})
+#                if PY3:
+#                    csv_writer.writerow(output)
+#                else:
 
             else:
                 output = (
@@ -651,11 +651,13 @@ def ask_password(profile, interactive):
     else:
         # Ability to read the password from stdin (echo "pass" | ./firefox_...)
         passwd = sys.stdin.readline().rstrip("\n")
-
-    if PY3:
-        return passwd
-    else:
-        return passwd.decode(input_encoding)
+    
+    return passwd.decode(input_encoding)
+#
+#    if PY3:
+#        return passwd
+#    else:
+#        return passwd.decode(input_encoding)
 
 
 def read_profiles(basepath, list_profiles):
